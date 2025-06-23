@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table datatable-save-state">
+        <table class="table">
             <thead>
                 <tr>
                     <th>#</th>
@@ -37,9 +37,9 @@
                             {{$project_user->project->name}}
                         </a>
                     </td>
-                    <td>{{$project_user->project->duration}}</td>
-                    <td>{{@$project_user->project->state->name}}</td>
-                    <td>{{@$project_user->project->district->name}}</td>
+                    <td>{{ $project_user->project->duration ?? 'N/A' }}</td>
+                    <td>{{ $project_user->project->state->name ?? 'N/A' }}</td>
+                    <td>{{ $project_user->project->district->name ?? 'N/A' }}</td>
                 </tr>
                 @endforeach
             </tbody>

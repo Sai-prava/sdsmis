@@ -3,6 +3,7 @@
 /****************** ADMIN MIDDLEWARE PAGES ROUTES START****************/
 
 use App\Http\Controllers\Project\DashboardController;
+use App\Http\Controllers\Project\FarmerCardController;
 use App\Http\Controllers\Project\ProjectDashboardController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Project\ReportController;
@@ -42,13 +43,18 @@ Route::group(['prefix' => 'project', 'as' => 'project.', 'middleware' => 'auth:u
         Route::get('report/get_gram_panchyats/{block_id}', [ReportController::class, 'getGramPanchyatsByBlock'])->name('report.get_gram_panchyats');
         Route::get('report/get_villages/{gram_panchyat_id}', [ReportController::class, 'getVillagesByGramPanchyat'])->name('report.get_villages');
         Route::get('report/export', [ReportController::class, 'export'])->name('report.export');
-        Route::get('report/respondent_master/view{id}', [ReportController::class, 'respondentMasterView'])->name('report.respondent_master_view');
+        Route::get('report/respondent_master/view/{id}', [ReportController::class, 'respondentMasterView'])->name('report.respondent_master_view');
         Route::get('framing/profile', [ReportController::class, 'framingProfile'])->name('framing.profile');
         Route::get('framing/profile/view{id}', [ReportController::class, 'framingProfileView'])->name('framing.profileView');
         Route::get('report/monthly-framing', [ReportController::class, 'monthlyReportFarmer'])->name('report.monthly-framing');
-        Route::get('report/monthly-framing/view{id}', [ReportController::class, 'monthlyReportFarmerView'])->name('report.monthly-framing-view');
+        Route::get('report/monthly-framing/view/{id}', [ReportController::class, 'monthlyReportFarmerView'])->name('report.monthly-framing-view');
         Route::get('report/total-training', [ReportController::class, 'totalTraining'])->name('report.total-training');
         Route::get('report/total-training/view{id}', [ReportController::class, 'totalTrainingView'])->name('report.total-training-view');
+
+        //farmer card
+        Route::get('report/farmer-card', [FarmerCardController::class, 'farmerCard'])->name('report.farmer-card');
+        Route::get('report/farmer-card/view/{id}', [FarmerCardController::class, 'farmerCardView'])->name('report.farmer_card_view');
+        Route::get('report/farmering_card/{id}', [FarmerCardController::class, 'reportCard'])->name('report.farmering_card');
     });
 });
 /****************** ADMIN MIDDLEWARE PAGES ROUTES END****************/

@@ -51,8 +51,9 @@
     <script src="{{ asset('user_asset/global_assets/js/demo_pages/dashboard.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js">
-     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        < script src = "https://code.jquery.com/jquery-3.7.0.min.js" >
+    </script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     </script>
 
     <!-- /theme JS files -->
@@ -251,6 +252,8 @@
                                 <li class="nav-item"><a href="{{ route('project.report.total-training') }}"
                                         class="nav-link {{ Request::is('project/report/total-training') ? 'active' : '' }}">Total
                                         Training Report</a></li>
+                                <li class="nav-item"><a href="{{ route('project.report.farmer-card') }}"
+                                        class="nav-link {{ Request::is('project/report/farmer-card') ? 'active' : '' }}">Farmer Card</a></li>
                             </ul>
                         </li>
                     </ul>
