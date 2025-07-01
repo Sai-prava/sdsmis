@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ProjectUserController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RespondentMasterController;
+use App\Http\Controllers\Admin\SHGController;
 use App\Http\Controllers\Admin\StateController;
 use App\Http\Controllers\Admin\TrainingReportController;
 use App\Http\Controllers\Admin\UserController;
@@ -79,6 +80,8 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.','middleware' => 'auth:user'], 
         /*******************Major Delivery ROUTE END*************/      
         /*******************Respondent Master ROUTE START*************/       
         Route::resource('respondent_master',RespondentMasterController::class);
+
+        Route::resource('shg', SHGController::class);
         /*******************Respondent Master ROUTE END*************/   
         /*******************Farming Profile ROUTE START*************/       
         Route::resource('farming_profile',FarmingProfileController::class);
