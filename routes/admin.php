@@ -6,9 +6,11 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\DistrictController;
 use App\Http\Controllers\Admin\FarmingProfileController;
+use App\Http\Controllers\Admin\GoatFarmingProfileController;
 use App\Http\Controllers\Admin\GramPanchyatController;
 use App\Http\Controllers\Admin\MajorDeliveryController;
 use App\Http\Controllers\Admin\MonthlyFarmingReportController;
+use App\Http\Controllers\Admin\PGController;
 use App\Http\Controllers\Admin\PoliceStationController;
 use App\Http\Controllers\Admin\PondPreparationController;
 use App\Http\Controllers\Admin\ProjectController;
@@ -82,9 +84,11 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.','middleware' => 'auth:user'], 
         Route::resource('respondent_master',RespondentMasterController::class);
 
         Route::resource('shg', SHGController::class);
+        Route::resource('pg', PGController::class);
         /*******************Respondent Master ROUTE END*************/   
         /*******************Farming Profile ROUTE START*************/       
         Route::resource('farming_profile',FarmingProfileController::class);
+      
         /*******************Farming Profile ROUTE END*************/   
         /*******************Pond Preparation ROUTE START*************/       
         Route::resource('pond_preparation',PondPreparationController::class);

@@ -254,7 +254,8 @@
                                         class="nav-link {{ Request::is('admin/country') ? 'active' : '' }}">Country</a>
                                 </li>
                                 <li class="nav-item"><a href="{{ route('admin.state.index') }}"
-                                        class="nav-link {{ Request::is('admin/state') ? 'active' : '' }}">State</a></li>
+                                        class="nav-link {{ Request::is('admin/state') ? 'active' : '' }}">State</a>
+                                </li>
                                 <li class="nav-item"><a href="{{ route('admin.city.index') }}"
                                         class="nav-link {{ Request::is('admin/city') ? 'active' : '' }}">City</a></li>
                                 <li class="nav-item"><a href="{{ route('admin.police_station.index') }}"
@@ -264,7 +265,8 @@
                                         class="nav-link {{ Request::is('admin/district') ? 'active' : '' }}">District</a>
                                 </li>
                                 <li class="nav-item"><a href="{{ route('admin.block.index') }}"
-                                        class="nav-link {{ Request::is('admin/block') ? 'active' : '' }}">Block</a></li>
+                                        class="nav-link {{ Request::is('admin/block') ? 'active' : '' }}">Block</a>
+                                </li>
                                 <li class="nav-item"><a href="{{ route('admin.gram_panchyat.index') }}"
                                         class="nav-link {{ Request::is('admin/gram_panchyat') ? 'active' : '' }}">Gram
                                         Panchyat</a></li>
@@ -273,6 +275,9 @@
                                 </li>
                                 <li class="nav-item"><a href="{{ route('admin.shg.index') }}"
                                         class="nav-link {{ Request::is('admin/shg') ? 'active' : '' }}">SHG</a>
+                                </li>
+                                <li class="nav-item"><a href="{{ route('admin.pg.index') }}"
+                                        class="nav-link {{ Request::is('admin/pg') ? 'active' : '' }}">PG</a>
                                 </li>
                             </ul>
                         </li>
