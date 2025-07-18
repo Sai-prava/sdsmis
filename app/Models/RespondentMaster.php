@@ -11,7 +11,7 @@ class RespondentMaster extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','block_id','district_id','gram_panchyat_id','village_id','gender','age','education',
+        'name','block_id','district_id','gram_panchyat_id','village_id','shg_id','pg_id','gender','age','education',
         'number_family_member','caste','religion','farmer_id','image','api_id','user_id',
         'is_validate'
     ];
@@ -41,6 +41,15 @@ class RespondentMaster extends Model
     public function farming_profile()
     {
         return $this->hasMany(FarmingProfile::class,'respondent_master_id','id');
+    }
+    public function shg()
+    {
+        return $this->belongsTo(SHG::class, 'shg_id');
+    }
+
+    public function pg()
+    {
+        return $this->belongsTo(PG::class, 'pg_id');
     }
     
 

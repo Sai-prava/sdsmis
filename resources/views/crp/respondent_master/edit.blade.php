@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label>Image @if($respondent_master->image) <a href="{{asset($respondent_master->image)}}" target="_blank"> ( Show Image )</a>@endif</label>
-                            <input name="image" type="file" class="form-control" placeholder="Enter Name" required>
+                            <input name="image" type="file" class="form-control" placeholder="Enter Name">
                         </div>
                         <div class="form-group col-md-4">
                             <label>District</label>
@@ -66,6 +66,27 @@
                                 <option value="">Select Village</option>
                                 @foreach(App\Models\Village::where('gram_panchyat_id',$respondent_master->gram_panchyat_id)->get() as $village)
                                 <option {{$respondent_master->village_id == $village->id?'selected':''}} value="{{$village->id}}">{{$village->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>SHG</label>
+                            <select disabled name="shg_id" class="form-control select-search" data-fouc required>
+                                {{-- <option value="">Select SHG</option> --}}
+                                @foreach(App\Models\SHG::get() as $shg)
+                                    <option value="{{ $shg->id }}" {{ old('shg_id') == $shg->id ? 'selected' : '' }}>
+                                        {{ $shg->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-md-4">
+                            <label>PG</label>
+                            <select disabled name="pg_id" class="form-control select-search" data-fouc required>
+                                {{-- <option value="">Select PG</option> --}}
+                                @foreach(App\Models\PG::get() as $pg_index => $pg)
+                                <option value="{{$pg->id}}"{{ old('pg_id') == $pg->id ? 'selected' : '' }}>{{ $pg->name }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -182,6 +182,12 @@
 								<span>Repondent Master</span>
 							</a>
 						</li>
+						<li class="nav-item">
+							<a href="{{route('crp.pg_monthly_progress_report.index')}}" class="nav-link {{Request::is('crp/pg_monthly_progress_report') || Request::is('crp/pg_monthly_progress_report/*')?'active':''}}">
+								<i class="icon-home4"></i>
+								<span>PG monthly Progress report </span>
+							</a>
+						</li>
 						{{-- <li class="nav-item">
 							<a href="{{route('crp.training_report.index')}}" class="nav-link {{Request::is('project/project')?'active':''}}">
 								<i class="icon-home4"></i>

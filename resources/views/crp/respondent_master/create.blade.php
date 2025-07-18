@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label>Image</label>
-                            <input name="image" type="file" class="form-control" placeholder="Enter Name" required>
+                            <input name="image" type="file" class="form-control" placeholder="Enter Name">
                         </div>
                         <div class="form-group col-md-4">
                             <label>District</label>
@@ -67,6 +67,25 @@
                                 <option selected disabled>Select Village</option>
                                 @foreach(App\Models\Village::whereIn('id',$user_villages_ids)->get() as $village_index =>  $village)
                                 <option @if(count($user_villages_ids) == 1 && $village_index == 0) selected @endif value="{{$village->id}}">{{$village->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>SHG</label>
+                            <select  name="shg_id" class="form-control select-search" required>
+                                <option selected disabled>Select SHG</option>
+                                @foreach(App\Models\SHG::get() as $shg_index => $shg)
+                                <option value="{{$shg->id}}">{{$shg->name}}</option>
+                                @endforeach
+                               
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>PG</label>
+                            <select  name="pg_id" class="form-control select-search" required>
+                                <option selected disabled>Select PG</option>
+                                @foreach(App\Models\PG::get() as $pg_index => $pg)
+                                <option value="{{$pg->id}}">{{$pg->name}}</option>
                                 @endforeach
                             </select>
                         </div>

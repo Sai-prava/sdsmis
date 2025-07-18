@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('p_g_s', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->string('code')->nullable();
-            $table->date('date_of_formation')->nullable();
-            $table->timestamps();
+        Schema::table('respondent_masters', function (Blueprint $table) {
+            $table->unsignedBigInteger('shg_id')->nullable()->after('village_id');
+            $table->unsignedBigInteger('pg_id')->nullable()->after('shg_id');
         });
     }
 
@@ -29,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('p_g_s');
+        Schema::table('respondent_masters', function (Blueprint $table) {
+            $table->dropColumn(['shg_id', 'pg_id']);
+        });
     }
 };

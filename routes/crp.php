@@ -3,6 +3,8 @@
 
 use App\Http\Controllers\Crp\FarmingProfileController;
 use App\Http\Controllers\Crp\MonthlyFarmingReportController;
+use App\Http\Controllers\Crp\PgMonthlyFarmingReportController;
+use App\Http\Controllers\Crp\PgMonthlyProgressReportController;
 use App\Http\Controllers\Crp\RespondentMasterController;
 use App\Http\Controllers\Crp\TrainingReportController;
 
@@ -28,6 +30,7 @@ Route::group(['prefix' => 'crp', 'as'=>'crp.','middleware' => 'auth:user'], func
         Route::post('get_gram_panchyats',[MonthlyFarmingReportController::class,'getGramPanchyats'])->name('monthly_farming_report.get_gram_panchyats');
         Route::post('get_villages',[MonthlyFarmingReportController::class,'getVillages'])->name('monthly_farming_report.get_villages');
         Route::resource('monthly_farming_report',MonthlyFarmingReportController::class);
+        Route::resource('pg_monthly_progress_report',PgMonthlyProgressReportController::class);
         /*******************Monthly Farming Report ROUTE END*************/    
     });        
 });        

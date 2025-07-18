@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Block;
+use App\Models\District;
+use App\Models\GramPanchyat;
 use App\Models\PG;
+use App\Models\Village;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -17,7 +21,11 @@ class PGController extends Controller
     public function index()
     {
         $pgs = PG::all();
-        return view('admin.pg.index',compact('pgs'));
+        $districts = District::all();
+        $blocks = Block::all();
+        $panchayats = GramPanchyat::all();
+        $villages = Village::all();
+        return view('admin.pg.index', compact('pgs', 'districts','blocks','panchayats','villages'));
     }
 
     /**
@@ -38,6 +46,7 @@ class PGController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all);
         try {
             $this->validate($request, [
                 'name' => 'required',
@@ -87,7 +96,7 @@ class PGController extends Controller
         $pg = PG::find($id);
         $pg->update($request->all());
         toastr()->success('PG Updated successfully');
-        return redirect()->back(); 
+        return redirect()->back();
     }
 
     /**
@@ -102,5 +111,23 @@ class PGController extends Controller
         $pg->delete();
         toastr()->success('PG Deleted successfully');
         return redirect()->back();
+    }
+
+    public function getBlocks($district_id)
+    {
+        $blocks = Block::where('district_id', $district_id)->get();
+        return response()->json($blocks);
+    }
+
+    public function getPanchayats($block_id)
+    {
+        $panchayats = GramPanchyat::where('block_id', $block_id)->get();
+        return response()->json($panchayats);
+    }
+
+    public function getVillages($gram_panchyat_id)
+    {
+        $villages = Village::where('gram_panchyat_id', $gram_panchyat_id)->get();
+        return response()->json($villages);
     }
 }

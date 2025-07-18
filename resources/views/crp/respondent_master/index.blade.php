@@ -28,6 +28,8 @@
                     <th>District Name</th>
                     <th>Gram Panchyat Name</th>
                     <th>Village Name</th>
+                    <th>SHG Name</th>
+                    <th>PG Name</th>
                     <th>Is Validate</th>
                     <th>Action</th>
                 </tr>
@@ -41,8 +43,9 @@
                     <td>{{@$respondent_master->district->name}}</td>
                     <td>{{@$respondent_master->gram_panchyat->name}}</td>
                     <td>{{@$respondent_master->village->name}}</td>
-                    <td>
-                        
+                    <td>{{@$respondent_master->shg->name}}</td>
+                    <td>{{@$respondent_master->pg->name}}</td>
+                    <td>                       
                         @if($respondent_master->is_validate)
                         <span class="badge badge-success">Yes</span>
                         @else 
