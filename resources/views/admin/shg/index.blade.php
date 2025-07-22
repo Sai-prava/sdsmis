@@ -24,6 +24,34 @@
                         @csrf
                         <div class="row">
                             <div class="form-group col-md-6">
+                                <label>District</label>
+                                <select id="district_id" name="district_id" class="form-control" required>
+                                    <option value="">Select District</option>
+                                    @foreach (App\Models\District::all() as $district)
+                                        <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Block</label>
+                                <select id="block_id" name="block_id" class="form-control" required>
+                                    <option value="">Select Block</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Gram Panchyat</label>
+                                <select id="gram_panchyat_id" name="gram_panchyat_id" class="form-control" required>
+                                    <option value="">Select Gram Panchyat</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Village</label>
+                                <select name="village_id" id="village_id" class="form-control" required>
+                                    <option value="">Select Village</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
                                 <label>SHG Name</label>
                                 <input name="name" type="text" class="form-control" placeholder="Enter SHG Name"
                                     required>
@@ -74,9 +102,13 @@
                         <td>
                             <button data-toggle="modal" data-target="#edit_modal" class="edit-btn btn btn-primary"
                                 data-id="{{ $shg->id }}" data-name="{{ $shg->name }}"
-                                data-code="{{ $shg->code }}" data-date_of_formation="{{ $shg->date_of_formation }}">
+                                data-code="{{ $shg->code }}" data-date_of_formation="{{ $shg->date_of_formation }}"
+                                data-district_id="{{ $shg->district_id }}" data-block_id="{{ $shg->block_id }}"
+                                data-gram_panchyat_id="{{ $shg->gram_panchyat_id }}"
+                                data-village_id="{{ $shg->village_id }}">
                                 Edit
                             </button>
+
                         </td>
                         <td>
                             <form action="{{ route('admin.shg.destroy', $shg->id) }}" method="POST">
@@ -103,6 +135,49 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="id" name="id">
+                        <div class="form-group">
+                            <label>District</label>
+                            <select name="district_id" id="edit_district" class="form-control" disabled>
+                                <option value="">Select District</option>
+                                @foreach ($districts as $district)
+                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Block -->
+                        <div class="form-group">
+                            <label>Block</label>
+                            <select name="block_id" id="edit_block" class="form-control" required disabled>
+                                <option value="">Select Block</option>
+                                @foreach ($blocks as $block)
+                                    <option value="{{ $block->id }}">{{ $block->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Gram Panchayat -->
+                        <div class="form-group">
+                            <label>Gram Panchayat</label>
+                            <select name="gram_panchyat_id" id="edit_panchayat" class="form-control" required disabled>
+                                <option value="">Select Panchayat</option>
+                                @foreach ($panchayats as $panchayat)
+                                    <option value="{{ $panchayat->id }}">{{ $panchayat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Village -->
+                        <div class="form-group">
+                            <label>Village</label>
+                            <select name="village_id" id="edit_village" class="form-control" required disabled>
+                                <option value="">Select Village</option>
+                                @foreach ($villages as $village)
+                                    <option value="{{ $village->id }}">{{ $village->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
 
                         <div class="form-group">
                             <label for="name">SHG Name</label>
@@ -140,22 +215,113 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            // District -> Block
+            $('#district_id').change(function() {
+                let district_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('admin.monthly_farming_report.get_blocks') }}",
+                    method: 'post',
+                    data: {
+                        district_id: district_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        $('#block_id').empty().append('<option value="">Select Block</option>');
+                        $('#gram_panchyat_id').empty().append(
+                            '<option value="">Select Gram Panchyat</option>');
+                        $('#village_id').empty().append(
+                            '<option value="">Select Village</option>');
+                        if (response.blocks) {
+                            response.blocks.forEach(function(block) {
+                                $('#block_id').append('<option value="' + block.id +
+                                    '">' + block.name + '</option>');
+                            });
+                        }
+                    }
+                });
+            });
+            // Block -> Gram Panchyat
+            $('#block_id').change(function() {
+                let block_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('admin.monthly_farming_report.get_gram_panchyats') }}",
+                    method: 'post',
+                    data: {
+                        block_id: block_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        $('#gram_panchyat_id').empty().append(
+                            '<option value="">Select Gram Panchyat</option>');
+                        $('#village_id').empty().append(
+                            '<option value="">Select Village</option>');
+                        if (response.gram_panchyats) {
+                            response.gram_panchyats.forEach(function(gp) {
+                                $('#gram_panchyat_id').append('<option value="' + gp
+                                    .id + '">' + gp.name + '</option>');
+                            });
+                        }
+                    }
+                });
+            });
+            // Gram Panchyat -> Village
+            $('#gram_panchyat_id').change(function() {
+                let gram_panchyat_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('admin.monthly_farming_report.get_villages') }}",
+                    method: 'post',
+                    data: {
+                        gram_panchyat_id: gram_panchyat_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        $('#village_id').empty().append(
+                            '<option value="">Select Village</option>');
+                        if (response.villages) {
+                            response.villages.forEach(function(village) {
+                                $('#village_id').append('<option value="' + village.id +
+                                    '">' + village.name + '</option>');
+                            });
+                        }
+                    }
+                });
+            });
+            // For edit modal, keep your existing script for now
             $('.edit-btn').click(function() {
-                // Get data from button
                 const id = $(this).data('id');
                 const name = $(this).data('name');
                 const code = $(this).data('code');
                 const date_of_formation = $(this).data('date_of_formation');
+                const district_id = $(this).data('district_id');
+                const block_id = $(this).data('block_id');
+                const gram_panchyat_id = $(this).data('gram_panchyat_id');
+                const village_id = $(this).data('village_id');
 
                 $('#id').val(id);
                 $('#name').val(name);
                 $('#code').val(code);
                 $('#date_of_formation').val(date_of_formation);
+                $('#edit_district_id').val(district_id);
 
-                let action = '{{ route('admin.shg.update', ':id') }}';
-                action = action.replace(':id', id);
+                let action = '{{ route('admin.shg.update', ':id') }}'.replace(':id', id);
                 $('#updateForm').attr('action', action);
+                // Set district and fetch blocks
+                $('#edit_district').val(district_id).trigger('change');
+                $('#edit_block').val(block_id);
+                $('#edit_panchayat').val(gram_panchyat_id);
+                $('#edit_village').val(village_id);
+
+                // Show modal
+                $('#edit_modal').modal('show');
+
             });
+
         });
     </script>
 @endsection

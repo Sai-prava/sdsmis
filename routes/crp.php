@@ -29,6 +29,8 @@ Route::group(['prefix' => 'crp', 'as'=>'crp.','middleware' => 'auth:user'], func
         Route::post('get_blocks',[MonthlyFarmingReportController::class,'getBlocks'])->name('monthly_farming_report.get_blocks');
         Route::post('get_gram_panchyats',[MonthlyFarmingReportController::class,'getGramPanchyats'])->name('monthly_farming_report.get_gram_panchyats');
         Route::post('get_villages',[MonthlyFarmingReportController::class,'getVillages'])->name('monthly_farming_report.get_villages');
+        Route::post('get_shgs',[MonthlyFarmingReportController::class,'getShgs'])->name('monthly_farming_report.get_shgs');
+        Route::post('get_pgs',[MonthlyFarmingReportController::class,'getPgs'])->name('monthly_farming_report.get_pgs');
         Route::resource('monthly_farming_report',MonthlyFarmingReportController::class);
         Route::resource('pg_monthly_progress_report',PgMonthlyProgressReportController::class);
         /*******************Monthly Farming Report ROUTE END*************/    

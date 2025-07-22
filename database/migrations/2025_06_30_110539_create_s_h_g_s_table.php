@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->integer('code')->nullable();
             $table->date('date_of_formation')->nullable();
+            $table->integer('district_id')->nullable();
+            $table->integer('block_id')->nullable();
+            $table->integer('gram_panchyat_id')->nullable();
+            $table->integer('village_id')->nullable();
             $table->timestamps();
         });
     }

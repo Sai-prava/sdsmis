@@ -67,7 +67,7 @@ class RespondentMasterController extends Controller
             ]);
             RespondentMaster::create($request->all());
             toastr()->success('Respondent Master Added Successfully');
-            return redirect()->back();
+            return redirect()->route('crp.respondent_master.index');
         } catch (Exception $e) {
             toastr()->error($e->getMessage());
             return redirect()->back();
@@ -107,6 +107,7 @@ class RespondentMasterController extends Controller
     public function update(Request $request, $id)
     {
         $respondentMaster = RespondentMaster::find($id);
+        // dd($respondentMaster);
         $respondentMaster->update($request->all());
         toastr()->success('Respondent Master Updated successfully');
         return redirect()->back();

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Block;
+use App\Models\District;
+use App\Models\GramPanchyat;
 use App\Models\SHG;
+use App\Models\Village;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -17,7 +21,11 @@ class SHGController extends Controller
     public function index()
     {
         $shgs = SHG::all();
-        return view('admin.shg.index',compact('shgs'));
+        $districts = District::all();
+        $blocks = Block::all();
+        $panchayats = GramPanchyat::all();
+        $villages = Village::all();
+        return view('admin.shg.index',compact('shgs','districts','blocks','panchayats','villages'));
     }
 
     /**
