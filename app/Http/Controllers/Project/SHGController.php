@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Controller;
 use App\Models\Block;
 use App\Models\District;
 use App\Models\GramPanchyat;
-use App\Models\PG;
+use App\Models\SHG;
 use App\Models\Village;
 use Exception;
 use Illuminate\Http\Request;
 
-class PGController extends Controller
+class SHGController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,12 +20,12 @@ class PGController extends Controller
      */
     public function index()
     {
-        $pgs = PG::all();
+        $shgs = SHG::all();
         $districts = District::all();
         $blocks = Block::all();
         $panchayats = GramPanchyat::all();
         $villages = Village::all();
-        return view('admin.pg.index', compact('pgs', 'districts','blocks','panchayats','villages'));
+        return view('project.shg.index',compact('shgs','districts','blocks','panchayats','villages'));
     }
 
     /**
@@ -46,15 +46,14 @@ class PGController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all);
         try {
             $this->validate($request, [
                 'name' => 'required',
                 'code' => 'required',
                 'date_of_formation' => 'required',
             ]);
-            PG::create($request->all());
-            toastr()->success('PG Added Successfully');
+            SHG::create($request->all());
+            toastr()->success('SHG Added Successfully');
             return redirect()->back();
         } catch (Exception $e) {
             toastr()->error($e->getMessage());
@@ -93,10 +92,10 @@ class PGController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pg = PG::find($id);
-        $pg->update($request->all());
-        toastr()->success('PG Updated successfully');
-        return redirect()->back();
+        $shg = SHG::find($id);
+        $shg->update($request->all());
+        toastr()->success('SHG Updated successfully');
+        return redirect()->back(); 
     }
 
     /**
@@ -107,27 +106,27 @@ class PGController extends Controller
      */
     public function destroy($id)
     {
-        $pg = PG::find($id);
-        $pg->delete();
-        toastr()->success('PG Deleted successfully');
+        $shg = SHG::find($id);
+        $shg->delete();
+        toastr()->success('SHG Deleted successfully');
         return redirect()->back();
     }
-
     public function getBlocks($district_id)
     {
         $blocks = Block::where('district_id', $district_id)->get();
         return response()->json($blocks);
     }
-
+    
     public function getPanchayats($block_id)
     {
         $panchayats = GramPanchyat::where('block_id', $block_id)->get();
         return response()->json($panchayats);
     }
-
-    public function getVillages($gram_panchyat_id)
+    
+    public function getVillages($panchayat_id)
     {
-        $villages = Village::where('gram_panchyat_id', $gram_panchyat_id)->get();
+        $villages = Village::where('gram_panchyat_id', $panchayat_id)->get();
         return response()->json($villages);
     }
+    
 }

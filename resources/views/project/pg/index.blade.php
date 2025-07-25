@@ -1,4 +1,4 @@
-@extends('admin.layout.index')
+@extends('project.layout.index')
 
 @section('title')
     Manage PG
@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.pg.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('project.pg.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="form-group col-md-3">
@@ -125,7 +125,7 @@
                         </td>
 
                         <td>
-                            <form action="{{ route('admin.pg.destroy', $pg->id) }}" method="POST">
+                            <form action="{{ route('project.pg.destroy', $pg->id) }}" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-danger">Delete</button>
@@ -268,7 +268,7 @@
                 $('#edit_branch').val(branch);
 
                 // Set form action
-                let action = '{{ route('admin.pg.update', ':id') }}';
+                let action = '{{ route('project.pg.update', ':id') }}';
                 action = action.replace(':id', id);
                 $('#updateForm').attr('action', action);
 

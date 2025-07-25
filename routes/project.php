@@ -4,9 +4,11 @@
 
 use App\Http\Controllers\Project\DashboardController;
 use App\Http\Controllers\Project\FarmerCardController;
+use App\Http\Controllers\Project\PGController;
 use App\Http\Controllers\Project\ProjectDashboardController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Project\ReportController;
+use App\Http\Controllers\Project\SHGController;
 use App\Http\Controllers\Project\UserController;
 
 Route::group(['prefix' => 'project', 'as' => 'project.', 'middleware' => 'auth:user'], function () {
@@ -55,6 +57,16 @@ Route::group(['prefix' => 'project', 'as' => 'project.', 'middleware' => 'auth:u
         Route::get('report/farmer-card', [FarmerCardController::class, 'farmerCard'])->name('report.farmer-card');
         Route::get('report/farmer-card/view/{id}', [FarmerCardController::class, 'farmerCardView'])->name('report.farmer_card_view');
         Route::get('report/farmering_card/{id}', [FarmerCardController::class, 'reportCard'])->name('report.farmering_card');
+
+        Route::resource('shg', SHGController::class);
+        Route::resource('pg', PGController::class);
+        Route::get('pg-get-blocks/{district_id}', [PGController::class, 'getBlocks']);
+        Route::get('pg-get-panchayats/{block_id}', [PGController::class, 'getPanchayats']);
+        Route::get('pg-get-villages/{gram_panchyat_id}', [PGController::class, 'getVillages']);
+        Route::get('shg-get-blocks/{district_id}', [SHGController::class, 'getBlocks']);
+        Route::get('shg-get-panchayats/{block_id}', [SHGController::class, 'getPanchayats']);
+        Route::get('shg-get-villages/{panchayat_id}', [SHGController::class, 'getVillages']);
+        
     });
 });
 /****************** ADMIN MIDDLEWARE PAGES ROUTES END****************/

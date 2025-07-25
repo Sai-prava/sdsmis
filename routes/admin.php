@@ -84,8 +84,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:user'
         /*******************Respondent Master ROUTE START*************/
         Route::resource('respondent_master', RespondentMasterController::class);
 
-        Route::resource('shg', SHGController::class);
-        Route::resource('pg', PGController::class);
+       
         /*******************Respondent Master ROUTE END*************/
         /*******************Farming Profile ROUTE START*************/
         Route::resource('farming_profile', FarmingProfileController::class);
@@ -106,9 +105,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:user'
         Route::resource('training_report', TrainingReportController::class);
         /*******************TRAINING REPORT ROUTE END*************/
 
-        Route::get('pg-get-blocks/{district_id}', [PGController::class, 'getBlocks']);
-        Route::get('pg-get-panchayats/{block_id}', [PGController::class, 'getPanchayats']);
-        Route::get('pg-get-villages/{gram_panchyat_id}', [PGController::class, 'getVillages']);
+       
     });
 });
 /****************** ADMIN MIDDLEWARE PAGES ROUTES END****************/

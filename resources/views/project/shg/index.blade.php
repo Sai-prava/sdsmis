@@ -1,4 +1,4 @@
-@extends('admin.layout.index')
+@extends('project.layout.index')
 
 @section('title')
     Manage SHG
@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.shg.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('project.shg.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -111,7 +111,7 @@
 
                         </td>
                         <td>
-                            <form action="{{ route('admin.shg.destroy', $shg->id) }}" method="POST">
+                            <form action="{{ route('project.shg.destroy', $shg->id) }}" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-danger">Delete</button>
@@ -213,86 +213,72 @@
 @endsection
 
 @section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         $(document).ready(function() {
-            // District -> Block
-            $('#district_id').change(function() {
+
+            // ---------- CREATE FORM ----------
+            $('#district_id').on('change', function() {
                 let district_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('admin.monthly_farming_report.get_blocks') }}",
-                    method: 'post',
-                    data: {
-                        district_id: district_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        $('#block_id').empty().append('<option value="">Select Block</option>');
-                        $('#gram_panchyat_id').empty().append(
-                            '<option value="">Select Gram Panchyat</option>');
-                        $('#village_id').empty().append(
-                            '<option value="">Select Village</option>');
-                        if (response.blocks) {
-                            response.blocks.forEach(function(block) {
-                                $('#block_id').append('<option value="' + block.id +
-                                    '">' + block.name + '</option>');
+                $('#block_id').html('<option value="">Loading...</option>');
+                $('#gram_panchyat_id').html('<option value="">Select Gram Panchayat</option>');
+                $('#village_id').html('<option value="">Select Village</option>');
+                if (district_id) {
+                    $.ajax({
+                        url: 'shg-get-blocks/' + district_id,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#block_id').html('<option value="">Select Block</option>');
+                            $.each(data, function(key, value) {
+                                $('#block_id').append('<option value="' + value.id +
+                                    '">' + value.name + '</option>');
                             });
                         }
-                    }
-                });
+                    });
+                }
             });
-            // Block -> Gram Panchyat
-            $('#block_id').change(function() {
+
+            $('#block_id').on('change', function() {
                 let block_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('admin.monthly_farming_report.get_gram_panchyats') }}",
-                    method: 'post',
-                    data: {
-                        block_id: block_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        $('#gram_panchyat_id').empty().append(
-                            '<option value="">Select Gram Panchyat</option>');
-                        $('#village_id').empty().append(
-                            '<option value="">Select Village</option>');
-                        if (response.gram_panchyats) {
-                            response.gram_panchyats.forEach(function(gp) {
-                                $('#gram_panchyat_id').append('<option value="' + gp
-                                    .id + '">' + gp.name + '</option>');
+                $('#gram_panchyat_id').html('<option value="">Loading...</option>');
+                $('#village_id').html('<option value="">Select Village</option>');
+                if (block_id) {
+                    $.ajax({
+                        url: 'shg-get-panchayats/' + block_id,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#gram_panchyat_id').html(
+                                '<option value="">Select Gram Panchayat</option>');
+                            $.each(data, function(key, value) {
+                                $('#gram_panchyat_id').append('<option value="' + value
+                                    .id + '">' + value.name + '</option>');
                             });
                         }
-                    }
-                });
+                    });
+                }
             });
-            // Gram Panchyat -> Village
-            $('#gram_panchyat_id').change(function() {
-                let gram_panchyat_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('admin.monthly_farming_report.get_villages') }}",
-                    method: 'post',
-                    data: {
-                        gram_panchyat_id: gram_panchyat_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        $('#village_id').empty().append(
-                            '<option value="">Select Village</option>');
-                        if (response.villages) {
-                            response.villages.forEach(function(village) {
-                                $('#village_id').append('<option value="' + village.id +
-                                    '">' + village.name + '</option>');
+
+            $('#gram_panchyat_id').on('change', function() {
+                let panchayat_id = $(this).val();
+                $('#village_id').html('<option value="">Loading...</option>');
+                if (panchayat_id) {
+                    $.ajax({
+                        url: 'shg-get-villages/' + panchayat_id,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#village_id').html('<option value="">Select Village</option>');
+                            $.each(data, function(key, value) {
+                                $('#village_id').append('<option value="' + value.id +
+                                    '">' + value.name + '</option>');
                             });
                         }
-                    }
-                });
+                    });
+                }
             });
-            // For edit modal, keep your existing script for now
+
+
+            // ---------- EDIT FORM (Modal) ----------
             $('.edit-btn').click(function() {
                 const id = $(this).data('id');
                 const name = $(this).data('name');
@@ -307,19 +293,18 @@
                 $('#name').val(name);
                 $('#code').val(code);
                 $('#date_of_formation').val(date_of_formation);
-                $('#edit_district_id').val(district_id);
 
-                let action = '{{ route('admin.shg.update', ':id') }}'.replace(':id', id);
+                // Set form action dynamically
+                let action = '{{ route('project.shg.update', ':id') }}'.replace(':id', id);
                 $('#updateForm').attr('action', action);
-                // Set district and fetch blocks
-                $('#edit_district').val(district_id).trigger('change');
+
+                // Set dropdowns
+                $('#edit_district').val(district_id);
                 $('#edit_block').val(block_id);
                 $('#edit_panchayat').val(gram_panchyat_id);
                 $('#edit_village').val(village_id);
 
-                // Show modal
                 $('#edit_modal').modal('show');
-
             });
 
         });

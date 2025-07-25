@@ -273,12 +273,12 @@
                                 <li class="nav-item"><a href="{{ route('admin.village.index') }}"
                                         class="nav-link {{ Request::is('admin/village') ? 'active' : '' }}">Village</a>
                                 </li>
-                                <li class="nav-item"><a href="{{ route('admin.shg.index') }}"
+                                {{-- <li class="nav-item"><a href="{{ route('admin.shg.index') }}"
                                         class="nav-link {{ Request::is('admin/shg') ? 'active' : '' }}">SHG</a>
                                 </li>
                                 <li class="nav-item"><a href="{{ route('admin.pg.index') }}"
                                         class="nav-link {{ Request::is('admin/pg') ? 'active' : '' }}">PG</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
                     </ul>

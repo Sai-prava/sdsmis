@@ -253,9 +253,24 @@
                                         class="nav-link {{ Request::is('project/report/total-training') ? 'active' : '' }}">Total
                                         Training Report</a></li>
                                 <li class="nav-item"><a href="{{ route('project.report.farmer-card') }}"
-                                        class="nav-link {{ Request::is('project/report/farmer-card') ? 'active' : '' }}">Farmer Card</a></li>
+                                        class="nav-link {{ Request::is('project/report/farmer-card') ? 'active' : '' }}">Farmer
+                                        Card</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('project.shg.index') }}"
+                                class="nav-link {{ Request::is('project/shg') ? 'active' : '' }}">
+                                <i class="bi bi-briefcase"></i>
+                                <span>SHG</span>
+                            </a>
+                        </li> <li class="nav-item">
+                            <a href="{{ route('project.pg.index') }}"
+                                class="nav-link {{ Request::is('project/pg') ? 'active' : '' }}">
+                                <i class="bi bi-briefcase"></i>
+                                <span>PG</span>
+                            </a>
+                        </li>
+                       
                     </ul>
                 </div>
                 <!-- /main navigation -->
