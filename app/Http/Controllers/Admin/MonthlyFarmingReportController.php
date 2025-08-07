@@ -8,6 +8,8 @@ use App\Models\Block;
 use App\Models\District;
 use App\Models\GramPanchyat;
 use App\Models\MonthlyFarmingReport;
+use App\Models\PG;
+use App\Models\SHG;
 use App\Models\Village;
 use Exception;
 use Illuminate\Http\Request;
@@ -41,13 +43,12 @@ class MonthlyFarmingReportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { 
-        try{
+    {
+        try {
             MonthlyFarmingReport::create($request->all());
             toastr()->success('Monthly Farming Report Added Successfully');
             return redirect()->back();
-        }catch (Exception $e)
-        {
+        } catch (Exception $e) {
             toastr()->error($e->getMessage());
             return redirect()->back();
         }
@@ -73,18 +74,15 @@ class MonthlyFarmingReportController extends Controller
     public function edit($id)
     {
         $monthly_farming_report = MonthlyFarmingReport::find($id);
-        $have_months = MonthlyFarmingReport::where('respondent_master_id',$monthly_farming_report->respondent_master_id)->pluck('month')->toArray();
+        $have_months = MonthlyFarmingReport::where('respondent_master_id', $monthly_farming_report->respondent_master_id)->pluck('month')->toArray();
         $months = Helpers::getMonths();
         $available_months = [];
-        foreach($months as $month)
-        {
-            if(!in_array($month,$have_months))
-            {
+        foreach ($months as $month) {
+            if (!in_array($month, $have_months)) {
                 $available_months[] = $month;
             }
         }
-        return view('admin.monthly_farming_report.edit',compact('monthly_farming_report','available_months'));
-
+        return view('admin.monthly_farming_report.edit', compact('monthly_farming_report', 'available_months'));
     }
 
     /**
@@ -96,13 +94,12 @@ class MonthlyFarmingReportController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
+        try {
             $monthly_farming_report = MonthlyFarmingReport::find($id);
             $monthly_farming_report->update($request->all());
             toastr()->success('Monthly Farming Report Updated Successfully');
             return redirect()->back();
-        }catch (Exception $e)
-        {
+        } catch (Exception $e) {
             toastr()->error($e->getMessage());
             return redirect()->back();
         }
@@ -121,16 +118,14 @@ class MonthlyFarmingReportController extends Controller
         toastr()->success('Monthly Farming Report Deleted successfully');
         return redirect()->back();
     }
-    
+
     public function getMonths(Request $request)
     {
-        $have_months = MonthlyFarmingReport::where('respondent_master_id',$request->master_id)->pluck('month')->toArray();
+        $have_months = MonthlyFarmingReport::where('respondent_master_id', $request->master_id)->pluck('month')->toArray();
         $months = Helpers::getMonths();
         $available_months = [];
-        foreach($months as $month)
-        {
-            if(!in_array($month,$have_months))
-            {
+        foreach ($months as $month) {
+            if (!in_array($month, $have_months)) {
                 $available_months[] = $month;
             }
         }
@@ -140,30 +135,51 @@ class MonthlyFarmingReportController extends Controller
     }
     public function getDistricts(Request $request)
     {
-        $districts = District::where('state_id',$request->state_id)->get();
+        $districts = District::where('state_id', $request->state_id)->get();
         return response()->json([
             'districts' => $districts,
         ]);
     }
     public function getBlocks(Request $request)
     {
-        $blocks = Block::where('district_id',$request->district_id)->get();
+        $blocks = Block::where('district_id', $request->district_id)->get();
         return response()->json([
             'blocks' => $blocks,
         ]);
     }
     public function getGramPanchyats(Request $request)
     {
-        $gram_panchyats = GramPanchyat::where('block_id',$request->block_id)->get();
+        $gram_panchyats = GramPanchyat::where('block_id', $request->block_id)->get();
         return response()->json([
             'gram_panchyats' => $gram_panchyats,
         ]);
     }
     public function getVillages(Request $request)
     {
-        $villages = Village::where('gram_panchyat_id',$request->gram_panchyat_id)->get();
+        $villages = Village::where('gram_panchyat_id', $request->gram_panchyat_id)->get();
         return response()->json([
             'villages' => $villages,
+        ]);
+    }
+    public function getShgs(Request $request)
+    {
+        $village_id = $request->village_id;
+
+        $shgs = SHG::where('village_id', $village_id)->get();
+
+        return response()->json([
+            'shgs' => $shgs,
+        ]);
+    }
+
+    public function getPgs(Request $request)
+    {
+        $village_id = $request->village_id;
+
+        $pgs = PG::where('village_id', $village_id)->get();
+
+        return response()->json([
+            'pgs' => $pgs,
         ]);
     }
 }

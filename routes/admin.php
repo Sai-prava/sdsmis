@@ -84,7 +84,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:user'
         /*******************Respondent Master ROUTE START*************/
         Route::resource('respondent_master', RespondentMasterController::class);
 
-       
+
         /*******************Respondent Master ROUTE END*************/
         /*******************Farming Profile ROUTE START*************/
         Route::resource('farming_profile', FarmingProfileController::class);
@@ -99,13 +99,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:user'
         Route::post('get_blocks', [MonthlyFarmingReportController::class, 'getBlocks'])->name('monthly_farming_report.get_blocks');
         Route::post('get_gram_panchyats', [MonthlyFarmingReportController::class, 'getGramPanchyats'])->name('monthly_farming_report.get_gram_panchyats');
         Route::post('get_villages', [MonthlyFarmingReportController::class, 'getVillages'])->name('monthly_farming_report.get_villages');
+        Route::post('get-shgs', [MonthlyFarmingReportController::class, 'getShgs'])->name('monthly_farming_report.get_shgs');
+        Route::post('get-pgs', [MonthlyFarmingReportController::class, 'getPgs'])->name('monthly_farming_report.get_pgs');
+
         Route::resource('monthly_farming_report', MonthlyFarmingReportController::class);
         /*******************Monthly Farming Report ROUTE END*************/
         /*******************TRAINING REPORT ROUTE START*************/
         Route::resource('training_report', TrainingReportController::class);
         /*******************TRAINING REPORT ROUTE END*************/
-
-       
     });
 });
 /****************** ADMIN MIDDLEWARE PAGES ROUTES END****************/

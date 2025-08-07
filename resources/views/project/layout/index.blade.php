@@ -263,14 +263,15 @@
                                 <i class="bi bi-briefcase"></i>
                                 <span>SHG</span>
                             </a>
-                        </li> <li class="nav-item">
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('project.pg.index') }}"
                                 class="nav-link {{ Request::is('project/pg') ? 'active' : '' }}">
                                 <i class="bi bi-briefcase"></i>
                                 <span>PG</span>
                             </a>
                         </li>
-                       
+
                     </ul>
                 </div>
                 <!-- /main navigation -->

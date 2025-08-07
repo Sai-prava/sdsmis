@@ -28,6 +28,8 @@
                     <th>District Name</th>
                     <th>Gram Panchyat Name</th>
                     <th>Village Name</th>
+                    <th>SHG Name</th>
+                    <th>PG Name</th>
                     <th>Action</th>
                     <th>Action</th>
                 </tr>
@@ -41,6 +43,8 @@
                     <td>{{@$respondent_master->district->name}}</td>
                     <td>{{@$respondent_master->gram_panchyat->name}}</td>
                     <td>{{@$respondent_master->village->name}}</td>
+                    <td>{{ @$respondent_master->shg->name }}</td>
+                    <td>{{ @$respondent_master->pg->name }}</td>
                     <td>
                         <a href="{{route('admin.respondent_master.edit',$respondent_master->id)}}" class="btn btn-primary btn-sm">Edit</a>
                     </td>

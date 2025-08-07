@@ -70,6 +70,25 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
+                            <label>Choose SHG</label>
+                            <select name="shg_id" id="shg_id" class="form-control select-search" data-fouc required>
+                                <option selected disabled>Select SHG</option>
+                                @foreach(App\Models\SHG::where('village_id',$respondent_master->village_id)->get() as $shg)
+                                <option {{$respondent_master->shg_id == $shg->id?'selected':''}} value="{{$shg->id}}">{{$shg->name}}</option>
+                                @endforeach                               
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Choose PG</label>
+                            <select name="pg_id" id="pg_id" class="form-control select-search" data-fouc required>
+                                <option selected disabled>Select PG</option>
+                                @foreach (App\Models\PG::where('village_id', $respondent_master->village_id)->get() as $pg)
+                                    <option {{ $respondent_master->pg_id == $pg->id ? 'selected' : '' }}
+                                        value="{{ $pg->id }}">{{ $pg->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label>Choose Gender</label>
                             <select  name="gender" class="form-control select-search" data-fouc required>
                                 <option disabled>Select Gender</option>
@@ -199,6 +218,32 @@
                 }
             });
         });
+        $('#village_id').change(function() {
+                let village_id = $(this).val();
+
+                // Fetch SHGs
+                $.ajax({
+                    url: "{{ route('admin.monthly_farming_report.get_shgs') }}",
+                    method: 'post',
+                    data: {
+                        village_id: village_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        $('#shg_id').empty();
+                        $('#shg_id').append('<option disabled selected>Select SHG</option>');
+                        response.shgs.forEach(function(shg) {
+                            $('#shg_id').append('<option value="' + shg.id + '">' + shg
+                                .name + '</option>');
+                        });
+                    }
+                });
+
+                // Fetch PGs
+
+            });
     });
 </script>
 @endsection
